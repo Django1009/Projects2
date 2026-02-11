@@ -1,0 +1,28 @@
+:root {
+  --bs-primary: #2563eb;  /* blue */
+  --bs-success: #15803d;  /* green */
+  --bs-warning: #d97706;  /* orange */
+  --bs-info:    #0ea5e9;  /* sky */
+  --bs-body-bg: #f9fafb;
+  --bs-body-color: #111827;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+#out {
+  min-height: 8rem;
+}
+
+/* Optional polish for list outputs */
+#out ol.list-group-numbered > li,
+#out ul.list-group > li {
+  background-color: #fff;
+}
