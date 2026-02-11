@@ -33,7 +33,12 @@ const vue_app = Vue.createApp({
         return {
             // This holds your movies.json data.
             movies: [],
-            /* ADD ADDITIONAL VARIABLES FOR STEP 3 HERE */
+                                    /* ADD ADDITIONAL VARIABLES FOR STEP 3 HERE */
+                                    // App-level variables for bindings
+                                    title: 'IS219 Gallery (Project 3)',
+                                    owner: 'Project Owner',
+                                    // Replace with your GitHub repo URL (used by footer button)
+                                    github: 'https://github.com/your-username/your-repo'
          
       }
     },
