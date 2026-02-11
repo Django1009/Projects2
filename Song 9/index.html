@@ -92,18 +92,18 @@
 						<div class="main">
 							<div class="row" v-if="movies.length && !loading">
 								<!-- Render one card per movie -->
-								<div class="col-md-6" v-for="movie in allMovies" :key="movie.title">
+								<div class="col-md-6" v-for="(movie, idx) in allMovies" :key="movie.title">
 									<div class="thumbnail">
-										<img class="poster img-fluid" :src="movie.posters[movie.posterindex]" :alt="movie.title" />
+										<img class="poster img-fluid" :src="movie.posters[movie.posterindex]" :alt="movie.title" @click="posterClick(idx)" style="cursor:pointer" />
 										<div class="imageInfo">{{ movie.posterindex }}</div>
 										<p class="title">{{ movie.title }} ({{ movie.country }})</p>
 										<p class="score"><i class="bi bi-star" aria-hidden="true"></i> {{ movie.iscore }} </p>
-										<p class="runtime">Runtime: {{ movie.runtime }}</p>
-										<p class="released">Released: {{ formatReleased(movie.released) }} | Rated: {{ movie.rating }}</p>
+										<p class="runtime">Runtime: {{ timeText(movie.runtime) }}</p>
+										<p class="released">Released: {{ makeTextDate(movie.released) }} | Rated: {{ movie.rating }}</p>
 										<p class="websites">Websites: <a :href="movie.imdb" target="_blank">imdb</a> | <a :href="movie.website" target="_blank">website</a></p>
 										<div class="social">
-											<p class="likes"><i class="bi bi-hand-thumbs-up" aria-hidden="true"></i> {{ movie.likes }}</p>
-											<p class="dislikes"><i class="bi bi-hand-thumbs-down" aria-hidden="true"></i> {{ movie.dislikes }}</p>
+											<p class="likes"><i class="bi bi-hand-thumbs-up" aria-hidden="true"></i> {{ movie.likes }} <button class="btn btn-sm btn-outline-primary ms-2" @click="like(idx)">Like</button></p>
+											<p class="dislikes"><i class="bi bi-hand-thumbs-down" aria-hidden="true"></i> {{ movie.dislikes }} <button class="btn btn-sm btn-outline-danger ms-2" @click="dislike(idx)">Dislike</button></p>
 										</div>
 									</div>
 								</div>

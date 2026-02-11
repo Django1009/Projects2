@@ -1,4 +1,4 @@
-/* SITE.JS: THIS FILE CONTAINS THE METHODS/FUNCTIONS AND VARIABLES CONTROLLING YOUR SITE
+ /* SITE.JS: THIS FILE CONTAINS THE METHODS/FUNCTIONS AND VARIABLES CONTROLLING YOUR SITE
 //
 */
 
@@ -70,6 +70,51 @@ const vue_app = Vue.createApp({
                   const mm = String(m).padStart(2, '0')
                   const dd = String(d).padStart(2, '0')
                   return `${y}-${mm}-${dd}`
+            }
+            ,
+            // Convert [YYYY, M, D] to a human-readable text date like "Jan 14, 1994"
+            makeTextDate(dateArray) {
+                  if (!dateArray || !Array.isArray(dateArray)) return ''
+                  const [y, m, d] = dateArray
+                  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+                  const mm = months[(Number(m) || 1) - 1] || ''
+                  const dd = d ? Number(d) : ''
+                  return `${mm} ${dd}, ${y}`
+            },
+
+            // Increase likes for the movie at index
+            like(index) {
+                  if (typeof index !== 'number') return
+                  const movie = this.movies[index]
+                  if (!movie) return
+                  // ensure likes is a number
+                  movie.likes = Number(movie.likes || 0) + 1
+            },
+
+            // Increase dislikes for the movie at index
+            dislike(index) {
+                  if (typeof index !== 'number') return
+                  const movie = this.movies[index]
+                  if (!movie) return
+                  movie.dislikes = Number(movie.dislikes || 0) + 1
+            },
+
+            // Cycle to the next poster for the movie at index
+            posterClick(index) {
+                  if (typeof index !== 'number') return
+                  const movie = this.movies[index]
+                  if (!movie || !Array.isArray(movie.posters) || movie.posters.length === 0) return
+                  movie.posterindex = (Number(movie.posterindex || 0) + 1) % movie.posters.length
+            },
+
+            // Convert minutes into "Xh Ym" or "Ym" format
+            timeText(minutes) {
+                  const m = Number(minutes)
+                  if (!isFinite(m) || m < 0) return ''
+                  const h = Math.floor(m / 60)
+                  const mm = m % 60
+                  if (h > 0) return `${h}h ${mm}m`
+                  return `${mm}m`
             }
       }
 })
