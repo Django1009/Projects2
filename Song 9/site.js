@@ -25,14 +25,28 @@ const vue_app = Vue.createApp({
       // This automatically imports your movies.json file and puts it into
       //   the variable: movies
       created () {
-            fetch('movies.json').then(response => response.json()).then(json => {
+            // fetch movies and set loading/error state
+            fetch('movies.json')
+              .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok')
+                return response.json()
+              })
+              .then(json => {
                   this.movies = json
-            })
+                  this.loading = false
+              })
+              .catch(err => {
+                  console.error('Failed to load movies.json:', err)
+                  this.error = 'Failed to load movie data.'
+                  this.loading = false
+              })
       },
       data() {
         return {
             // This holds your movies.json data.
             movies: [],
+            loading: true,
+            error: '',
                                     /* ADD ADDITIONAL VARIABLES FOR STEP 3 HERE */
                                     // App-level variables for bindings
                                     title: 'IS219 Gallery (Project 3)',
@@ -41,9 +55,16 @@ const vue_app = Vue.createApp({
                                     github: 'https://github.com/your-username/your-repo'
          
       }
-    },
+      },
       methods: {
             /* ADD FUNCTIONS/METHODS FOR STEP 7 HERE */
+            formatReleased(released) {
+                  if (!released || !Array.isArray(released)) return ''
+                  const [y, m, d] = released
+                  const mm = String(m).padStart(2, '0')
+                  const dd = String(d).padStart(2, '0')
+                  return `${y}-${mm}-${dd}`
+            }
       }
 })
 
