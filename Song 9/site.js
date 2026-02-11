@@ -56,6 +56,12 @@ const vue_app = Vue.createApp({
          
       }
       },
+      computed: {
+            // a Vue-side loop source — computed so we can easily transform/filter later
+            allMovies() {
+                  return this.movies
+            }
+      },
       methods: {
             /* ADD FUNCTIONS/METHODS FOR STEP 7 HERE */
             formatReleased(released) {

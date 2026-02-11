@@ -92,7 +92,7 @@
 						<div class="main">
 							<div class="row" v-if="movies.length && !loading">
 								<!-- Render one card per movie -->
-								<div class="col-md-6" v-for="movie in movies" :key="movie.title">
+								<div class="col-md-6" v-for="movie in allMovies" :key="movie.title">
 									<div class="thumbnail">
 										<img class="poster img-fluid" :src="movie.posters[movie.posterindex]" :alt="movie.title" />
 										<div class="imageInfo">{{ movie.posterindex }}</div>
