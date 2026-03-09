@@ -1,0 +1,39 @@
+:root {
+    --player-image: url('https://media1.giphy.com/media/v1.Y2lkPTZjMDliOTUyMHY4eDltYnV6NTc1amd5aGgyaXJzczBtcGkyYWY4aHdjc3dyMXZwZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/rcdMwI9wF5GzWEZJrn/200.gif');
+    --platform-image: url('https://customcat.com/wp-content/uploads/2020/11/redirect112820141248711-1.png');
+    --use-images: true;
+}
+
+canvas {
+    border: 1px solid #d3d3d3;
+    background-image: url('https://s3.img-b.com/image/private/t_base,c_lpad,f_auto,dpr_auto,w_90,h_90/product/bedrosians/bedrosians-100002427-4493524.jpg')
+}
+
+.navigation {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 5px;
+}
+
+.nav-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #45a049;
+}
+
+.nav-button:active {
+    background-color: #3d8b40;
+}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+    body {
+        font-family: Arial;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    #chessboard {
+        display: grid;
+        grid-template-columns: repeat(8, 50px);
+        grid-template-rows: repeat(8, 50px);
+        gap: 0;
+        border: 2px solid #333;
+        margin: 20px 0;
+    }
+
+    .square {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 30px;
+        user-select: none;
+    }
+
+    .square.light {
+        background-color: #f0d9b5;
+    }
+
+    .square.dark {
+        background-color: #b58863;
+    }
+
+    .square.selected {
+        background-color: #baca44 !important;
+    }
+
+    .square.valid-move {
+        background-color: #ccc !important;
+    }
+
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<h2 id="currentTurn">White</h2>
+<div id="chessboard"></div>
+<button onclick="resetGame()">New Game</button>
+
+<script>
+    const PIECES = {
+        'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙',
+        'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟'
+    };
+
+    let board = [];
+    let selectedSquare = null;
+    let validMoves = [];
+    let currentPlayer = 'white';
+
+    function initBoard() {
+        board = [
+            ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+            ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['.', '.', '.', '.', '.', '.', '.', '.'],
+            ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+            ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+        ];
+    }
+
+    function renderBoard() {
+        const boardElement = document.getElementById('chessboard');
+        boardElement.innerHTML = '';
+
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+                const square = document.createElement('div');
+                const isLight = (row + col) % 2 === 0;
+                square.className = `square ${isLight ? 'light' : 'dark'}`;
+                
+                if (selectedSquare && selectedSquare.row === row && selectedSquare.col === col) {
+                    square.classList.add('selected');
+                } else if (validMoves.some(m => m.row === row && m.col === col)) {
+                    square.classList.add('valid-move');
+                }
+
+                if (board[row][col] !== '.') {
+                    square.textContent = PIECES[board[row][col]];
+                }
+
+                square.onclick = () => handleSquareClick(row, col);
+                boardElement.appendChild(square);
+            }
+        }
+    }
+
+    function getPossibleMoves(row, col) {
+        const piece = board[row][col];
+        if (piece === '.' || (currentPlayer === 'white' && piece === piece.toLowerCase()) ||
+            (currentPlayer === 'black' && piece === piece.toUpperCase())) {
+            return [];
+        }
+
+        const moves = [];
+        const isWhite = piece === piece.toUpperCase();
+        const type = piece.toLowerCase();
+
+        function addMove(r, c) {
+            if (r >= 0 && r < 8 && c >= 0 && c < 8) {
+                const target = board[r][c];
+                if (target === '.' || (isWhite && target === target.toLowerCase()) ||
+                    (!isWhite && target === target.toUpperCase())) {
+                    moves.push({ row: r, col: c });
+                }
+            }
+        }
+
+        function addDirection(dr, dc, maxSteps = 8) {
+            for (let i = 1; i <= maxSteps; i++) {
+                const nr = row + dr * i;
+                const nc = col + dc * i;
+                if (nr < 0 || nr >= 8 || nc < 0 || nc >= 8) break;
+                const target = board[nr][nc];
+                if (target === '.') {
+                    moves.push({ row: nr, col: nc });
+                } else if ((isWhite && target === target.toLowerCase()) ||
+                           (!isWhite && target === target.toUpperCase())) {
+                    moves.push({ row: nr, col: nc });
+                    break;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        if (type === 'p') {
+            const direction = isWhite ? -1 : 1;
+            const startRow = isWhite ? 6 : 1;
+            const nextRow = row + direction;
+            
+            if (nextRow >= 0 && nextRow < 8 && board[nextRow][col] === '.') {
+                moves.push({ row: nextRow, col });
+                if (row === startRow && board[row + 2 * direction][col] === '.') {
+                    moves.push({ row: row + 2 * direction, col })
+                    moves.push({ row: row + 3 * direction, col })
+                    moves.push({ row: row + 4 * direction, col });
+                }
+            }
+            
+            for (let dc of [-1, 1]) {
+                const nr = row + direction;
+                const nc = col + dc;
+                if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
+                    const target = board[nr][nc];
+                    if (target !== '.' && ((isWhite && target === target.toLowerCase()) ||
+                        (!isWhite && target === target.toUpperCase()))) {
+                        moves.push({ row: nr, col: nc });
+                    }
+                }
+            }
+        } else if (type === 'n') {
+            const knightMoves = [
+                [-2, -1], [-2, 1], [-1, -2], [-1, 2],
+                [1, -2], [1, 2], [2, -1], [2, 1]
+            ];
+            for (let [dr, dc] of knightMoves) {
+                addMove(row + dr, col + dc);
+            }
+        } else if (type === 'b') {
+            for (let d of [[-1, -1], [-1, 1], [1, -1], [1, 1]]) {
+                addDirection(d[0], d[1]);
+            }
+        } else if (type === 'r') {
+            for (let d of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+                addDirection(d[0], d[1]);
+            }
+        } else if (type === 'q') {
+            for (let d of [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]) {
+                addDirection(d[0], d[1]);
+            }
+        } else if (type === 'k') {
+            for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                    if (dr === 0 && dc === 0) continue;
+                    addMove(row + dr, col + dc);
+                }
+            }
+        }
+
+        return moves;
+    }
+
+    function handleSquareClick(row, col) {
+        const piece = board[row][col];
+        const isOwnPiece = (currentPlayer === 'white' && piece === piece.toUpperCase()) ||
+                          (currentPlayer === 'black' && piece === piece.toLowerCase());
+
+        if (selectedSquare && validMoves.some(m => m.row === row && m.col === col)) {
+            movePiece(selectedSquare.row, selectedSquare.col, row, col);
+            selectedSquare = null;
+            validMoves = [];
+        } else if (isOwnPiece) {
+            selectedSquare = { row, col };
+            validMoves = getPossibleMoves(row, col);
+        } else {
+            selectedSquare = null;
+            validMoves = [];
+        }
+
+        renderBoard();
+        updateTurn();
+    }
+
+    function movePiece(fromRow, fromCol, toRow, toCol) {
+        const piece = board[fromRow][fromCol];
+        board[toRow][toCol] = piece;
+        board[fromRow][fromCol] = '.';
+        currentPlayer = currentPlayer === 'white' ? 'black' : 'white';
+    }
+
+    function updateTurn() {
+        document.getElementById('currentTurn').textContent = (currentPlayer === 'white' ? 'White' : 'Black') + "'s Turn";
+    }
+
+    function resetGame() {
+        initBoard();
+        selectedSquare = null;
+        validMoves = [];
+        currentPlayer = 'white';
+        renderBoard();
+        updateTurn();
+    }
+
+    window.onload = resetGame;
+</script>
+<nav class="navigation">
+  <button class="nav-button" onclick="window.location.href='index.html';">Mosquito</button>
+  <button class="nav-button" onclick="window.location.href='index2.html';">Chess</button>
+</nav>
+</body>
+</html>

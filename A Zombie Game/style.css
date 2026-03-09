@@ -1,0 +1,209 @@
+/* Cataclysm: Dark Days Ahead - ASCII Style */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #000;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-header h1 {
+    color: #0f0;
+    font-size: 24px;
+    text-shadow: 0 0 5px #0f0;
+}
+
+.game-main {
+    display: flex;
+    gap: 20px;
+}
+
+.game-view {
+    flex: 1;
+}
+
+#game-map {
+    display: inline-grid;
+    grid-template-columns: repeat(80, 12px);
+    grid-template-rows: repeat(24, 18px);
+    gap: 0;
+    background-color: #000;
+    border: 2px solid #333;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    line-height: 1;
+    padding: 5px;
+}
+
+.tile {
+    width: 12px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: default;
+    user-select: none;
+}
+
+/* Terrain Colors */
+.tile.grass {
+    color: #0f0;
+}
+
+.tile.dirt {
+    color: #8B4513;
+}
+
+.tile.road {
+    color: #666;
+}
+
+.tile.tree {
+    color: #060;
+}
+
+.tile.wall {
+    color: #666;
+}
+
+.tile.door {
+    color: #8B4513;
+}
+
+.tile.window {
+    color: #87CEEB;
+}
+
+/* Entity Colors */
+.tile.player {
+    color: #fff;
+    background-color: #000;
+}
+
+.tile.zombie {
+    color: #800;
+}
+
+.tile.skeleton {
+    color: #888;
+}
+
+/* Item Colors */
+.tile.item {
+    color: #ff0;
+    font-weight: bold;
+}
+
+/* UI Panels */
+.sidebar {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.stats-panel, .inventory-panel, .messages-panel {
+    background-color: #111;
+    border: 1px solid #333;
+    padding: 10px;
+}
+
+.stats-panel h3, .inventory-panel h3, .messages-panel h3 {
+    color: #0f0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+
+#player-stats {
+    color: #fff;
+}
+
+.stat-line {
+    margin: 3px 0;
+}
+
+.stat-label {
+    color: #aaa;
+}
+
+.stat-value {
+    color: #0f0;
+}
+
+#inventory-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.inventory-item {
+    color: #ff0;
+    margin: 2px 0;
+    cursor: pointer;
+}
+
+.inventory-item:hover {
+    background-color: #333;
+}
+
+#message-log {
+    max-height: 150px;
+    overflow-y: auto;
+    font-size: 12px;
+}
+
+.message {
+    margin: 2px 0;
+    color: #ccc;
+}
+
+.message.important {
+    color: #ff0;
+}
+
+.message.danger {
+    color: #f00;
+}
+
+.controls {
+    margin-top: 20px;
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .game-main {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .stats-panel, .inventory-panel, .messages-panel {
+        flex: 1;
+        min-width: 250px;
+    }
+}
