@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Drake Stone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&family=Playfair+Display:wght@700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">DS</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="process.html" class="nav-link">Process</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contact Hero -->
+    <section class="contact-hero">
+        <div class="container">
+            <h1>Get In Touch</h1>
+            <p>Let's discuss your next web design or development project!</p>
+        </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="contact-content">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Form -->
+                <div class="contact-form-section">
+                    <h2>Send a Message</h2>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">Send Email</button>
+                    </form>
+                </div>
+
+                <!-- Direct Contact Info -->
+                <div class="contact-info-section">
+                    <h2>Direct Contact</h2>
+                    <div class="contact-info-block">
+                        <h3>Email</h3>
+                        <a href="mailto:drake@drakestone.design">drake@drakestone.design</a>
+                    </div>
+                    <div class="contact-info-block">
+                        <h3>Phone</h3>
+                        <a href="tel:+1-555-0456">+1 (555) 0456</a>
+                    </div>
+                    <div class="contact-info-block">
+                        <h3>Social Links</h3>
+                        <div class="social-links">
+                            <a href="#" class="social-link">Dribbble</a>
+                            <a href="#" class="social-link">LinkedIn</a>
+                            <a href="#" class="social-link">GitHub</a>
+                        </div>
+                    </div>
+                    <div class="contact-info-block">
+                        <h3>Response Time</h3>
+                        <p>I typically respond to inquiries within 24 hours on business days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Drake Stone – Web Designer & Developer. All rights reserved.</p>
+            <p class="designer-credit">Portfolio by Drake Stone</p>
+            <div class="footer-graphic">
+                <svg viewBox="0 0 400 20" preserveAspectRatio="none" style="width: 100%; height: 20px; margin-top: 10px;">
+                    <path d="M0,15 Q25,5 50,15 T100,15 T150,15 T200,15 T250,15 T300,15 T350,15 T400,15" stroke="#667eea" stroke-width="2" fill="none"/>
+                </svg>
+            </div>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
